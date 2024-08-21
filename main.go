@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -44,5 +45,26 @@ func main() {
 		return
 	}
 
-	fmt.Println("Response Body: ", string(body))
+	var weather WeatherResponse
+
+	err = json.Unmarshal(body, &weather)
+	if err != nil {
+		fmt.Println("Error: ", err)
+		return
+	}
+
+	// Extract and print the required weather information
+	fmt.Printf("Location: %s, %s, %s\n", weather.Location.Name, weather.Location.Region, weather.Location.Country)
+	fmt.Printf("Temperature: %.1f°C (%.1f°F)\n", weather.Current.TempC, weather.Current.TempF)
+	fmt.Printf("Condition: %s\n", weather.Current.Condition.Text)
+	fmt.Printf("Humidity: %d%%\n", weather.Current.Humidity)
+	fmt.Printf("Cloud Cover: %d%%\n", weather.Current.Cloud)
+	fmt.Printf("Feels Like: %.1f°C (%.1f°F)\n", weather.Current.FeelsLikeC, weather.Current.FeelsLikeF)
+	fmt.Printf("Wind Speed: %.1f mph (%.1f kph)\n", weather.Current.WindMph, weather.Current.WindKph)
+	fmt.Printf("Wind Chill: %.1f°C (%.1f°F)\n", weather.Current.WindchillC, weather.Current.WindchillF)
+	fmt.Printf("Heat Index: %.1f°C (%.1f°F)\n", weather.Current.HeatindexC, weather.Current.HeatindexF)
+	fmt.Printf("Dew Point: %.1f°C (%.1f°F)\n", weather.Current.DewpointC, weather.Current.DewpointF)
+	fmt.Printf("Visibility: %.1f km (%.1f miles)\n", weather.Current.VisKm, weather.Current.VisMiles)
+	fmt.Printf("UV Index: %.1f\n", weather.Current.Uv)
+	fmt.Printf("Gust: %.1f mph (%.1f kph)\n", weather.Current.GustMph, weather.Current.GustKph)
 }
