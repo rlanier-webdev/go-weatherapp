@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -84,6 +86,21 @@ func main() {
 	fmt.Printf("Visibility: %.1f km (%.1f miles)\n", weather.Current.VisKm, weather.Current.VisMiles)
 	fmt.Printf("UV Index: %.1f\n", weather.Current.Uv)
 	fmt.Printf("Gust: %.1f mph (%.1f kph)\n", weather.Current.GustMph, weather.Current.GustKph)
+
+	port := "8080" // Default port
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	}
+	//gin.SetMode(gin.ReleaseMode)
+	r := gin.Default()
+	r.LoadHTMLGlob("templates/*")
+
+	r.Static("/static", "./static")
+	r.GET("/", PageHandler)
+
+	if err := r.Run(":" + port); err != nil {
+		log.Fatal("Failed to run server: ", err)
+	}
 }
 
 func getUserInput() string {
