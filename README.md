@@ -1,7 +1,3 @@
-Here’s an updated README that includes instructions for using an `.env` file to store your API key:
-
----
-
 # Weather App
 
 This Weather App is a command-line application written in Go that allows you to fetch real-time weather data for any location based on a zip code. The app leverages the [WeatherAPI.com](https://www.weatherapi.com/) to retrieve and display detailed weather information, including temperature, humidity, wind speed, and more.
