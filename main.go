@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,9 +9,25 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
+
+func getUserInput() string {
+	// Create a new buffered reader to read input from the standard input
+	scanner := bufio.NewReader(os.Stdin)
+
+	fmt.Print("Enter the zip code of the location: ")
+
+	zipCode, err := scanner.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error reading input:", err)
+		return ""
+	}
+	zipCode = strings.TrimSpace(zipCode)
+	return zipCode
+}
 
 func main() {
 	err := godotenv.Load()
@@ -24,7 +41,7 @@ func main() {
 	// Define query parametrs
 	params := url.Values{}
 	params.Add("key", apiKey)
-	params.Add("q", "63134")
+	params.Add("q", getUserInput())
 	params.Add("aqi", "no")
 
 	// Construct the final URL
