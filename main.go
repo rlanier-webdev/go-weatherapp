@@ -20,14 +20,13 @@ func init() {
 	}
 }
 
-func main() {
-	apiKey := os.Getenv("APIKEY")
+func getWeather(apiKey, location string, client *http.Client) (*WeatherResponse, error) {
 	baseURL := "http://api.weatherapi.com/v1/current.json"
 
 	// Define query parametrs
 	params := url.Values{}
 	params.Add("key", apiKey)
-	params.Add("q", getUserInput())
+	params.Add("q", location)
 	params.Add("aqi", "no")
 
 	// Construct the final URL
@@ -37,7 +36,7 @@ func main() {
 	resp, err := http.Get(finalURL)
 	if err != nil {
 		fmt.Println("Error:", err)
-		return
+		return nil, err
 	}
 	defer resp.Body.Close()
 
@@ -45,7 +44,7 @@ func main() {
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error:", err)
-		return
+		return nil, err
 	}
 
 	var weather WeatherResponse
@@ -53,6 +52,21 @@ func main() {
 	err = json.Unmarshal(body, &weather)
 	if err != nil {
 		fmt.Println("Error: ", err)
+		return nil, err
+	}
+	return &weather, nil
+}
+
+func main() {
+	apiKey := os.Getenv("APIKEY")
+	location := getUserInput()
+
+	// Create a default HTTP client
+	client := &http.Client{}
+
+	weather, err := getWeather(apiKey, location, client)
+	if err != nil {
+		fmt.Println("Error:", err)
 		return
 	}
 
@@ -71,6 +85,7 @@ func main() {
 	fmt.Printf("UV Index: %.1f\n", weather.Current.Uv)
 	fmt.Printf("Gust: %.1f mph (%.1f kph)\n", weather.Current.GustMph, weather.Current.GustKph)
 }
+
 func getUserInput() string {
 	// Create a new buffered reader to read input from the standard input
 	scanner := bufio.NewReader(os.Stdin)
