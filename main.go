@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -14,27 +13,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func getUserInput() string {
-	// Create a new buffered reader to read input from the standard input
-	scanner := bufio.NewReader(os.Stdin)
-
-	fmt.Print("Enter the zip code of the location: ")
-
-	zipCode, err := scanner.ReadString('\n')
+func init() {
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error reading input:", err)
-		return ""
+		fmt.Println("Error loading .env file")
 	}
-	zipCode = strings.TrimSpace(zipCode)
-	return zipCode
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
 	apiKey := os.Getenv("APIKEY")
 	baseURL := "http://api.weatherapi.com/v1/current.json"
 
@@ -84,4 +70,18 @@ func main() {
 	fmt.Printf("Visibility: %.1f km (%.1f miles)\n", weather.Current.VisKm, weather.Current.VisMiles)
 	fmt.Printf("UV Index: %.1f\n", weather.Current.Uv)
 	fmt.Printf("Gust: %.1f mph (%.1f kph)\n", weather.Current.GustMph, weather.Current.GustKph)
+}
+func getUserInput() string {
+	// Create a new buffered reader to read input from the standard input
+	scanner := bufio.NewReader(os.Stdin)
+
+	fmt.Print("Enter the zip code of the location: ")
+
+	zipCode, err := scanner.ReadString('\n')
+	if err != nil {
+		fmt.Println("Error reading input:", err)
+		return ""
+	}
+	zipCode = strings.TrimSpace(zipCode)
+	return zipCode
 }
