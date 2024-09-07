@@ -7,6 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const defaultLocation = "10001"
+
 func PageHandler(c *gin.Context) {
 	data := gin.H{
 		"Title": "Weather App",
@@ -21,8 +23,7 @@ func WeatherHandler(c *gin.Context) {
 	client := &http.Client{}
 	zip := c.Query("zip")
 	if zip == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Zip code is required"})
-		return
+		zip = defaultLocation
 	}
 
 	weather, err := getWeather(apiKey, zip, client)
