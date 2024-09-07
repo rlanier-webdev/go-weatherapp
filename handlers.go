@@ -1,3 +1,4 @@
+// handlers.go
 package main
 
 import (
@@ -7,29 +8,51 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const defaultLocation = "10001" // Default ZIP code
+
 func PageHandler(c *gin.Context) {
+	apiKey := os.Getenv("APIKEY")
+	client := &http.Client{}
+
+	// Fetch weather data for the default location
+	weather, err := getWeather(apiKey, defaultLocation, client)
+	if err != nil {
+		c.HTML(http.StatusInternalServerError, "index.html", gin.H{
+			"Title": "Weather App",
+			"Error": "Failed to fetch default weather data",
+		})
+		return
+	}
+
 	data := gin.H{
-		"Title": "Weather App",
+		"Title":   "Weather App",
+		"Weather": weather,
 	}
 	c.HTML(http.StatusOK, "index.html", data)
 }
 
 func WeatherHandler(c *gin.Context) {
 	apiKey := os.Getenv("APIKEY")
-
-	// Create a default HTTP client
 	client := &http.Client{}
+
 	zip := c.Query("zip")
 	if zip == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Zip code is required"})
+		c.Redirect(http.StatusFound, "/") // Redirect to homepage if no ZIP code is provided
 		return
 	}
 
 	weather, err := getWeather(apiKey, zip, client)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch weather data"})
+		c.HTML(http.StatusInternalServerError, "index.html", gin.H{
+			"Title": "Weather App",
+			"Error": "Failed to fetch weather data",
+		})
 		return
 	}
 
-	c.JSON(http.StatusOK, weather)
+	data := gin.H{
+		"Title":   "Weather App",
+		"Weather": weather,
+	}
+	c.HTML(http.StatusOK, "index.html", data)
 }
