@@ -10,15 +10,20 @@
 <body>
     <div class="container">
         <h1 class="text-center my-3">Weather App</h1>
+        
+        <!-- Form to input a new location -->
         <form class="d-flex align-items-center justify-content-center" id="weatherForm">
             <input class="p-2" type="text" id="zip" name="zip" placeholder="Enter zip code" required>
             <button class="btn btn-primary mx-2" type="submit">Get Weather</button>
         </form>
 
+        <!-- Weather information will be displayed here -->
         <div id="weatherResult" class="m-2 bg-white">
-            <!-- Weather information will be displayed here -->
+            <p class="text-center">Fetching weather data...</p> <!-- Initial loading message -->
         </div>
     </div>
+
+    <!-- Include JavaScript file -->
     <script src="/static/js/app.js"></script>
 </body>
 </html>
