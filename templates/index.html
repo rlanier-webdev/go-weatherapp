@@ -3,27 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>{{ .Title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center my-3">Weather App</h1>
-        
+        <h1 class="text-center my-3">{{ .Title }}</h1>
+
         <!-- Form to input a new location -->
-        <form class="d-flex align-items-center justify-content-center" id="weatherForm">
+        <form class="d-flex align-items-center justify-content-center" action="/weather" method="get">
             <input class="p-2" type="text" id="zip" name="zip" placeholder="Enter zip code" required>
             <button class="btn btn-primary mx-2" type="submit">Get Weather</button>
         </form>
 
-        <!-- Weather information will be displayed here -->
+        <!-- Display weather information if available -->
         <div id="weatherResult" class="m-2 bg-white">
-            <p class="text-center">Fetching weather data...</p> <!-- Initial loading message -->
+            {{ if .Weather }}
+                <h2>Weather in {{ .Weather.Location.Name }}, {{ .Weather.Location.Region }}, {{ .Weather.Location.Country }}</h2>
+                <p>Temperature: {{ .Weather.Current.TempF }}°F ({{ .Weather.Current.TempC }}°C)</p>
+                <p>Condition: {{ .Weather.Current.Condition.Text }}</p>
+                <p>Humidity: {{ .Weather.Current.Humidity }}%</p>
+                <p>Wind: {{ .Weather.Current.WindMph }} mph ({{ .Weather.Current.WindKph }} kph)</p>
+                <p>Feels Like: {{ .Weather.Current.FeelsLikeF }}°F ({{ .Weather.Current.FeelsLikeC }}°C)</p>
+            {{ else }}
+                <p>{{ .Error }}</p>
+            {{ end }}
         </div>
     </div>
-
-    <!-- Include JavaScript file -->
-    <script src="/static/js/app.js"></script>
 </body>
 </html>
