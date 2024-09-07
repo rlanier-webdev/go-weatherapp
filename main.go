@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,7 +8,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -78,19 +76,4 @@ func main() {
 	if err := r.Run(":" + port); err != nil {
 		log.Fatal("Failed to run server: ", err)
 	}
-}
-
-func getUserInput() string {
-	// Create a new buffered reader to read input from the standard input
-	scanner := bufio.NewReader(os.Stdin)
-
-	fmt.Print("Enter the zip code of the location: ")
-
-	zipCode, err := scanner.ReadString('\n')
-	if err != nil {
-		fmt.Println("Error reading input:", err)
-		return ""
-	}
-	zipCode = strings.TrimSpace(zipCode)
-	return zipCode
 }
