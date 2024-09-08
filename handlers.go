@@ -18,7 +18,7 @@ func PageHandler(c *gin.Context) {
 	weather, err := getWeather(apiKey, defaultLocation, client)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "index.html", gin.H{
-			"Title": "Weather App",
+			"Title": "Weather Dashboard",
 			"Error": "Failed to fetch default weather data",
 		})
 		return
