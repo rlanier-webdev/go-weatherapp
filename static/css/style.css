@@ -1,17 +1,19 @@
 body {
      font-family: Arial, sans-serif;
-     background-color: #ffffff;
      color: #333;
 }
 
 .container {
-     width: 50%;
-     margin: 50px auto;
-     background-color: #fff;
+     width: 75%;
+     margin: 100px auto;
+     background-color: #FFFFFC;
      padding: 20px;
      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 input[type="text"] {
      font-size: 16px;
+}
+.feels-like, .condition {
+     margin-top: -20px;
 }
