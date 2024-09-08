@@ -9,6 +9,7 @@ import (
 )
 
 const defaultLocation = "10001" // Default ZIP code
+const title = "Weather Dashboard"
 
 func PageHandler(c *gin.Context) {
 	apiKey := os.Getenv("APIKEY")
@@ -18,14 +19,14 @@ func PageHandler(c *gin.Context) {
 	weather, err := getWeather(apiKey, defaultLocation, client)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "index.html", gin.H{
-			"Title": "Weather Dashboard",
+			"Title": title,
 			"Error": "Failed to fetch default weather data",
 		})
 		return
 	}
 
 	data := gin.H{
-		"Title":   "Weather Dashboard",
+		"Title":   title,
 		"Weather": weather,
 	}
 	c.HTML(http.StatusOK, "index.html", data)
@@ -44,14 +45,14 @@ func WeatherHandler(c *gin.Context) {
 	weather, err := getWeather(apiKey, zip, client)
 	if err != nil {
 		c.HTML(http.StatusInternalServerError, "index.html", gin.H{
-			"Title": "Weather Dashboard",
+			"Title": title,
 			"Error": "Failed to fetch weather data",
 		})
 		return
 	}
 
 	data := gin.H{
-		"Title":   "Weather App",
+		"Title": title,
 		"Weather": weather,
 	}
 	c.HTML(http.StatusOK, "index.html", data)
