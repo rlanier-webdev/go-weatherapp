@@ -58,7 +58,7 @@ func getWeather(apiKey, location string, client *http.Client) (*WeatherResponse,
 }
 
 func main() {
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
 
