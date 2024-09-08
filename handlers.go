@@ -25,7 +25,7 @@ func PageHandler(c *gin.Context) {
 	}
 
 	data := gin.H{
-		"Title":   "Weather App",
+		"Title":   "Weather Dashboard",
 		"Weather": weather,
 	}
 	c.HTML(http.StatusOK, "index.html", data)
