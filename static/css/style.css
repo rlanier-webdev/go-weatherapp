@@ -17,3 +17,74 @@ input[type="text"] {
 .feels-like, .condition {
      margin-top: -20px;
 }
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) { /* Tablets and smaller screens */
+     .container {
+         width: 90% !important;;
+         margin: 50px auto;
+         padding: 15px;
+     }
+ 
+     h1 {
+         font-size: 1.8rem;
+     }
+ 
+     .card {
+         margin-bottom: 20px;
+     }
+ 
+     input[type="text"] {
+         width: 100%;
+         margin-bottom: 10px;
+     }
+ 
+     .btn {
+         width: 100%;
+     }
+ 
+     .d-flex {
+         flex-direction: column !important;
+     }
+ 
+     .heading {
+         flex-direction: column !important;;
+         align-items: center !important;;
+     }
+ }
+ 
+ @media (max-width: 576px) { /* Mobile devices */
+     .container {
+         width: 95%;
+         padding: 10px;
+         margin: 20px auto;
+     }
+ 
+     h1 {
+         font-size: 1.5rem;
+     }
+ 
+     .card {
+         width: 100%;
+     }
+ 
+     .d-flex {
+         flex-direction: column !important;
+     }
+ 
+     .btn {
+         width: 100%;
+         margin-top: 10px;
+     }
+ 
+     .feels-like,
+     .condition {
+         font-size: 0.9rem;
+         margin-top: -10px;
+     }
+ 
+     input[type="text"] {
+         font-size: 14px;
+         padding: 8px;
+     }
+ }
