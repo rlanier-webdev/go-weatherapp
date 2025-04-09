@@ -114,3 +114,10 @@ To securely manage your WeatherAPI.com API key:
          // Use apiKey for your API requests
      }
      ```
+
+## 🧪 QA Testing Overview
+
+This project includes both manual and automated tests.
+
+- [Manual Test Cases](./manual-tests/test-cases.md)
+- [Bug Reports](./manual-tests/bug-reports.md)
