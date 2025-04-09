@@ -46,3 +46,10 @@ type WeatherResponse struct {
 	Location Location `json:"location"`
 	Current  Current  `json:"current"`
 }
+
+type WeatherError struct {
+	Error struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	} `json:"error"`
+}

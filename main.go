@@ -16,7 +16,7 @@ import (
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("Error loading .env file")
 	}
 }
 
@@ -33,7 +33,7 @@ func getWeather(apiKey, location string, client *http.Client) (*WeatherResponse,
 	finalURL := fmt.Sprintf("%s?%s", baseURL, params.Encode())
 
 	// Make the GET request using the passed client
-	resp, err := client.Get(finalURL) // Use the client parameter here
+	resp, err := client.Get(finalURL)
 	if err != nil {
 		log.Println("Error:", err)
 		return nil, err
@@ -47,6 +47,23 @@ func getWeather(apiKey, location string, client *http.Client) (*WeatherResponse,
 		return nil, err
 	}
 
+	// Check for HTTP errors
+	if resp.StatusCode != http.StatusOK {
+		// Try to parse the error response from the API
+		var apiError WeatherError
+		if err := json.Unmarshal(body, &apiError); err == nil {
+			if apiError.Error.Code == 1006 {
+				return nil, fmt.Errorf("invalid ZIP code. No matching location found for: %s", location)
+			}
+		}
+
+		if resp.StatusCode == http.StatusNotFound {
+			return nil, fmt.Errorf("weather data not found for location: %s", location)
+		}
+		return nil, fmt.Errorf("HTTP error: %s (status code: %d)", resp.Status, resp.StatusCode)
+	}
+
+	// Parse the JSON response
 	var weather WeatherResponse
 	err = json.Unmarshal(body, &weather)
 	if err != nil {
@@ -73,6 +90,6 @@ func main() {
 	}
 
 	if err := r.Run(":" + port); err != nil {
-		log.Fatal("Failed to run server: ", err)
+		log.Println("Failed to run server: ", err)
 	}
 }
