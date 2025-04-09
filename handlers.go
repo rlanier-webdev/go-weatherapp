@@ -57,8 +57,10 @@ func WeatherHandler(c *gin.Context) {
 
 // fetchWeather abstracts the weather fetching logic
 func fetchWeather(location string) (*WeatherResponse, error) {
+	// Ensure the API key is set in the environment variables
 	apiKey := os.Getenv("APIKEY")
 	if apiKey == "" {
+		log.Fatal("Error: API key is missing. Please ensure the .env file is present and contains the APIKEY variable.")
 		return nil, fmt.Errorf("API key is missing")
 	}
 
