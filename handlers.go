@@ -33,7 +33,7 @@ func PageHandler(c *gin.Context) {
 
 // WeatherHandler handles the weather request based on ZIP code
 func WeatherHandler(c *gin.Context) {
-	zip := c.Query("zip")
+	zip := c.DefaultQuery("zip", "10001")
 	if zip == "" {
 		c.Redirect(http.StatusFound, "/")
 		return
@@ -66,4 +66,4 @@ func fetchWeather(location string) (*WeatherResponse, error) {
 
 	client := &http.Client{} // Customize this client as needed
 	return getWeather(apiKey, location, client)
-}
+} 
