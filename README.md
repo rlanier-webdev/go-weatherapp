@@ -117,7 +117,7 @@ To securely manage your WeatherAPI.com API key:
 
 ## 🧪 QA Testing Overview
 
-This project includes both manual and automated tests.
+This project includes manual tests.
 
 - [Manual Test Cases](./manual-tests/test-cases.md)
 - [Bug Reports](./manual-tests/bug-reports.md)
