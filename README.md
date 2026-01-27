@@ -115,7 +115,7 @@ To securely manage your WeatherAPI.com API key:
      }
      ```
 
-## 🧪 QA Testing Overview
+## QA Testing Overview
 
 This project includes manual tests.
 
